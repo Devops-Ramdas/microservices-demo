@@ -28,7 +28,7 @@ spec:
       serviceAccountName: default
       containers:
         - name: server
-          image: iaasadmin/microservices_dev/checkoutservice:latest
+          image: iaasadmin.in/microservices_dev/checkoutservice:latest
           ports:
           - containerPort: 5050
           readinessProbe:

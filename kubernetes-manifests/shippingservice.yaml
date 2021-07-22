@@ -28,7 +28,7 @@ spec:
       serviceAccountName: default
       containers:
       - name: server
-        image: iaasadmin/microservices_dev/shippingservice:latest
+        image: iaasadmin.in/microservices_dev/shippingservice:latest
         ports:
         - containerPort: 50051
         env:

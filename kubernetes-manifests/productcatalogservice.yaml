@@ -29,7 +29,7 @@ spec:
       terminationGracePeriodSeconds: 5
       containers:
       - name: server
-        image: iaasadmin/microservices_dev/productcatalogservice:latest
+        image: iaasadmin.in/microservices_dev/productcatalogservice:latest
         ports:
         - containerPort: 3550
         env:

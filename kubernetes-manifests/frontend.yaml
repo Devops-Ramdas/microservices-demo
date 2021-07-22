@@ -30,7 +30,7 @@ spec:
       serviceAccountName: default
       containers:
         - name: server
-          image: iaasadmin/microservices_dev/frontend:latest
+          image: iaasadmin.in/microservices_dev/frontend:latest
           ports:
           - containerPort: 8080
           readinessProbe:
