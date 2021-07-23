@@ -1,0 +1,66 @@
+pipeline {
+    agent { label 'production' }
+
+    stages {
+        stage('Build Sa-Frontend') {
+            steps {
+                sh 'cd sa-frontend && npm install && npm run build'
+            }
+        }
+        stage('Build Sa-Webapp') {
+            steps {
+                sh 'cd sa-webapp && mvn install'
+            }
+        }
+        stage('Docker image sa-frontend') {
+            steps {
+                sh 'cd sa-frontend && docker build -t sa-frontend:1.0.0 .'
+            }
+        }
+
+	stage('Docker image sa-webapp') {
+            steps {
+                sh 'cd sa-webapp && docker build -t sa-webapp:1.0.0 .'
+            }
+        }
+	stage('Docker image sa-logic') {
+            steps {
+                sh 'cd sa-logic && docker build -t sa-logic:1.0.0 .'
+            }
+        }
+	
+	stage('Archive Artifacts jar file') {
+            steps {
+                archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
+            }
+        }
+	stage('print fingerprint of artifact jar file') {
+            steps {
+		fingerprint '**/*.jar'
+            }
+        }
+        stage('Docker image Tag Images with Harbor Registry') {
+            steps {
+                sh 'docker tag sa-frontend:1.0.0 iaasadmin.in/develop/sa-frontend:1.0.0 && docker tag sa-webapp:1.0.0 iaasadmin.in/develop/sa-webapp:1.0.0 && docker tag sa-logic:1.0.0 iaasadmin.in/develop/sa-logic:1.0.0'
+            }
+        }
+        stage('Harbor Login and Docker image Push to Registry') {
+            steps {
+                sh 'cat ~/harbor | docker login iaasadmin.in --username jenkins --password-stdin && docker push iaasadmin.in/develop/sa-frontend:1.0.0 && docker push iaasadmin.in/develop/sa-webapp:1.0.0 && docker push iaasadmin.in/develop/sa-logic:1.0.0'
+            }
+        }
+        stage('kubernetes Deploy to AKS Cluster') {
+              steps{
+                  script {
+                      kubernetesDeploy configs: 'resource-manifests/**', kubeconfigId: 'k8s', enableConfigSubstitution: true
+                  }
+              }
+          }
+
+        stage('Email Notification') {
+	    steps {
+		emailext body: 'Build Failed. Please check the Dashboard of Jenkins', subject: 'Build Failed. Please check the Dashboard of Jenkins', to: 'basil1987@gmail.com'
+            }
+	}
+    }
+}
