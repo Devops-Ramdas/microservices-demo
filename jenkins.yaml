@@ -16,57 +16,57 @@ pipeline {
         }
         stage('adservice Pull dev image and push to Prod registry') {
             steps {
-                sh 'docker pull iaasadmin.in/microservices_dev/adservice:latest && docker tag iaasadmin.in/microservices_dev/adservice:latest iaasadmin.in/microservices_prod/adservice:1.0.0.0 && docker push iaasadmin.in/microservices_prod/adservice:1.0.0'
+                sh 'docker pull iaasadmin.in/microservices_dev/adservice:latest && docker tag iaasadmin.in/microservices_dev/adservice:latest iaasadmin.in/microservices_prod/adservice:1.0.0.0'
             }
         }
         stage('cartservice Pull dev image and push to Prod registry') {
             steps {
-                sh 'docker pull iaasadmin.in/microservices_dev/cartservice:latest && docker tag iaasadmin.in/microservices_dev/cartservice:latest iaasadmin.in/microservices_prod/cartservice:1.0.0.0 && docker push iaasadmin.in/microservices_prod/cartservice:1.0.0'
+                sh 'docker pull iaasadmin.in/microservices_dev/cartservice:latest && docker tag iaasadmin.in/microservices_dev/cartservice:latest iaasadmin.in/microservices_prod/cartservice:1.0.0.0'
             }
         }
         stage('checkoutservice Pull dev image and push to Prod registry') {
             steps {
-                sh 'docker pull iaasadmin.in/microservices_dev/checkoutservice:latest && docker tag iaasadmin.in/microservices_dev/checkoutservice:latest iaasadmin.in/microservices_prod/checkoutservice:1.0.0.0 && docker push iaasadmin.in/microservices_prod/checkoutservice:1.0.0'
+                sh 'docker pull iaasadmin.in/microservices_dev/checkoutservice:latest && docker tag iaasadmin.in/microservices_dev/checkoutservice:latest iaasadmin.in/microservices_prod/checkoutservice:1.0.0.0'
             }
         }
         stage('emailservice Pull dev image and push to Prod registry') {
                 steps {
-                sh 'docker pull iaasadmin.in/microservices_dev/emailservice:latest && docker tag iaasadmin.in/microservices_dev/emailservice:latest iaasadmin.in/microservices_prod/emailservice:1.0.0.0 && docker push iaasadmin.in/microservices_prod/emailservice:1.0.0'
+                sh 'docker pull iaasadmin.in/microservices_dev/emailservice:latest && docker tag iaasadmin.in/microservices_dev/emailservice:latest iaasadmin.in/microservices_prod/emailservice:1.0.0.0'
                 }
             }
         stage('currencyservice Pull dev image and push to Prod registry') {
                 steps {
-                sh 'docker pull iaasadmin.in/microservices_dev/currencyservice:latest && docker tag iaasadmin.in/microservices_dev/currencyservice:latest iaasadmin.in/microservices_prod/currencyservice:1.0.0.0 && docker push iaasadmin.in/microservices_prod/currencyservice:1.0.0'
+                sh 'docker pull iaasadmin.in/microservices_dev/currencyservice:latest && docker tag iaasadmin.in/microservices_dev/currencyservice:latest iaasadmin.in/microservices_prod/currencyservice:1.0.0.0'
                 }
             }
         stage('frontend Pull dev image and push to Prod registry') {
                 steps {
-                sh 'docker pull iaasadmin.in/microservices_dev/frontend:latest && docker tag iaasadmin.in/microservices_dev/frontend:latest iaasadmin.in/microservices_prod/frontend:1.0.0.0 && docker push iaasadmin.in/microservices_prod/frontend:1.0.0'
+                sh 'docker pull iaasadmin.in/microservices_dev/frontend:latest && docker tag iaasadmin.in/microservices_dev/frontend:latest iaasadmin.in/microservices_prod/frontend:1.0.0.0'
                 }
             }
         stage('loadgenerator Pull dev image and push to Prod registry') {
                 steps {
-                sh 'docker pull iaasadmin.in/microservices_dev/loadgenerator:latest && docker tag iaasadmin.in/microservices_dev/loadgenerator:latest iaasadmin.in/microservices_prod/loadgenerator:1.0.0.0 && docker push iaasadmin.in/microservices_prod/loadgenerator:1.0.0'
+                sh 'docker pull iaasadmin.in/microservices_dev/loadgenerator:latest && docker tag iaasadmin.in/microservices_dev/loadgenerator:latest iaasadmin.in/microservices_prod/loadgenerator:1.0.0.0'
                 }
             }
         stage('paymentservice Pull dev image and push to Prod registry') {
                 steps {
-                sh 'docker pull iaasadmin.in/microservices_dev/paymentservice:latest && docker tag iaasadmin.in/microservices_dev/paymentservice:latest iaasadmin.in/microservices_prod/paymentservice:1.0.0.0 && docker push iaasadmin.in/microservices_prod/paymentservice:1.0.0'
+                sh 'docker pull iaasadmin.in/microservices_dev/paymentservice:latest && docker tag iaasadmin.in/microservices_dev/paymentservice:latest iaasadmin.in/microservices_prod/paymentservice:1.0.0.0'
                 }
             }
         stage('productcatalogservice Pull dev image and push to Prod registry') {
                 steps {
-                sh 'docker pull iaasadmin.in/microservices_dev/productcatalogservice:latest && docker tag iaasadmin.in/microservices_dev/productcatalogservice:latest iaasadmin.in/microservices_prod/productcatalogservice:1.0.0.0 && docker push iaasadmin.in/microservices_prod/productcatalogservice:1.0.0'
+                sh 'docker pull iaasadmin.in/microservices_dev/productcatalogservice:latest && docker tag iaasadmin.in/microservices_dev/productcatalogservice:latest iaasadmin.in/microservices_prod/productcatalogservice:1.0.0.0'
                 }
             }
         stage('recommendationservice Pull dev image and push to Prod registry') {
                 steps {
-                sh 'docker pull iaasadmin.in/microservices_dev/recommendationservice:latest && docker tag iaasadmin.in/microservices_dev/recommendationservice:latest iaasadmin.in/microservices_prod/recommendationservice:1.0.0.0 && docker push iaasadmin.in/microservices_prod/recommendationservice:1.0.0'
+                sh 'docker pull iaasadmin.in/microservices_dev/recommendationservice:latest && docker tag iaasadmin.in/microservices_dev/recommendationservice:latest iaasadmin.in/microservices_prod/recommendationservice:1.0.0.0'
                 }
             }
         stage('shippingservice Pull dev image and push to Prod registry') {
                 steps {
-                sh 'docker pull iaasadmin.in/microservices_dev/shippingservice:latest && docker tag iaasadmin.in/microservices_dev/shippingservice:latest iaasadmin.in/microservices_prod/shippingservice:1.0.0.0 && docker push iaasadmin.in/microservices_prod/shippingservice:1.0.0'
+                sh 'docker pull iaasadmin.in/microservices_dev/shippingservice:latest && docker tag iaasadmin.in/microservices_dev/shippingservice:latest iaasadmin.in/microservices_prod/shippingservice:1.0.0.0'
                 }
             }
     }
