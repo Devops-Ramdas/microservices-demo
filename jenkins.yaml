@@ -69,5 +69,56 @@ pipeline {
                 sh 'docker pull iaasadmin.in/microservices_dev/shippingservice:latest && docker tag iaasadmin.in/microservices_dev/shippingservice:latest iaasadmin.in/microservices_prod/shippingservice:1.0.0.0'
                 }
             }
+        stage('shippingservice push to Prod registry') {
+                steps {
+                sh 'docker push iaasadmin.in/microservices_prod/shippingservice:1.0.0.0'
+                }
+            }
+        stage('recommendationservice push to Prod registry') {
+                steps {
+                sh 'docker push iaasadmin.in/microservices_prod/recommendationservice:1.0.0.0'
+                }
+            }
+        stage('productcatalogservice push to Prod registry') {
+                steps {
+                sh 'docker push iaasadmin.in/microservices_prod/productcatalogservice:1.0.0.0'
+                }
+            }
+        stage('paymentservice push to Prod registry') {
+                steps {
+                sh 'docker push iaasadmin.in/microservices_prod/paymentservice:1.0.0.0'
+                }
+            }
+        stage('loadgenerator push to Prod registry') {
+                steps {
+                sh 'docker push iaasadmin.in/microservices_prod/loadgenerator:1.0.0.0'
+                }
+            }
+        stage('frontend push to Prod registry') {
+                steps {
+                sh 'docker push iaasadmin.in/microservices_prod/frontend:1.0.0.0'
+                }
+            }
+        stage('currencyservice push to Prod registry') {
+                steps {
+                sh 'docker push iaasadmin.in/microservices_prod/currencyservice:1.0.0.0'
+                }
+            }
+        stage('checkoutservice push to Prod registry') {
+                steps {
+                sh 'docker push iaasadmin.in/microservices_prod/checkoutservice:1.0.0.0'
+                }
+            }
+        stage('cartservice push to Prod registry') {
+                steps {
+                sh 'docker push iaasadmin.in/microservices_prod/cartservice:1.0.0.0'
+                }
+            }
+        stage('adservice push to Prod registry') {
+                steps {
+                sh 'docker push iaasadmin.in/microservices_prod/adservice:1.0.0.0'
+                }
+            }
+
     }
 }
