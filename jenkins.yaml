@@ -1,66 +1,92 @@
 pipeline {
     agent { label 'production' }
-
+    environment {
+        PROJECT_ID = 'jenkins-316214'
+        CLUSTER_NAME = 'develop'
+        LOCATION = 'us-east1-d'
+        CREDENTIALS_ID = 'jenkins-316214'
+    }
     stages {
-        stage('Build Sa-Frontend') {
-            steps {
-                sh 'cd sa-frontend && npm install && npm run build'
-            }
-        }
-        stage('Build Sa-Webapp') {
-            steps {
-                sh 'cd sa-webapp && mvn install'
-            }
-        }
-        stage('Docker image sa-frontend') {
-            steps {
-                sh 'cd sa-frontend && docker build -t sa-frontend:1.0.0 .'
-            }
-        }
-
-	stage('Docker image sa-webapp') {
-            steps {
-                sh 'cd sa-webapp && docker build -t sa-webapp:1.0.0 .'
-            }
-        }
-	stage('Docker image sa-logic') {
-            steps {
-                sh 'cd sa-logic && docker build -t sa-logic:1.0.0 .'
-            }
-        }
-	
-	stage('Archive Artifacts jar file') {
-            steps {
-                archiveArtifacts artifacts: '**/*.jar', followSymlinks: false
-            }
-        }
-	stage('print fingerprint of artifact jar file') {
-            steps {
-		fingerprint '**/*.jar'
-            }
-        }
-        stage('Docker image Tag Images with Harbor Registry') {
-            steps {
-                sh 'docker tag sa-frontend:1.0.0 iaasadmin.in/develop/sa-frontend:1.0.0 && docker tag sa-webapp:1.0.0 iaasadmin.in/develop/sa-webapp:1.0.0 && docker tag sa-logic:1.0.0 iaasadmin.in/develop/sa-logic:1.0.0'
-            }
-        }
-        stage('Harbor Login and Docker image Push to Registry') {
-            steps {
-                sh 'cat ~/harbor | docker login iaasadmin.in --username jenkins --password-stdin && docker push iaasadmin.in/develop/sa-frontend:1.0.0 && docker push iaasadmin.in/develop/sa-webapp:1.0.0 && docker push iaasadmin.in/develop/sa-logic:1.0.0'
-            }
-        }
-        stage('kubernetes Deploy to AKS Cluster') {
+        stage('Checkout code from GitHub Repo') {
               steps{
                   script {
-                      kubernetesDeploy configs: 'resource-manifests/**', kubeconfigId: 'k8s', enableConfigSubstitution: true
+                      git branch: 'develop', credentialsId: 'jenkins', url: 'git@github.com:Devops-Ramdas/microservices-demo.git'
                   }
               }
           }
-
-        stage('Email Notification') {
-	    steps {
-		emailext body: 'Build Failed. Please check the Dashboard of Jenkins', subject: 'Build Failed. Please check the Dashboard of Jenkins', to: 'basil1987@gmail.com'
+        stage('Login to Harbor Registry') {
+            steps {
+                sh 'cat ~/harbor | docker login iaasadmin.in --username msdevuser --password-stdin'
             }
-	}
+        }
+        stage('Build adservice docker image') {
+            steps {
+                sh 'cd src/adservice && docker build -t adservice:latest . && docker tag adservice:latest iaasadmin.in/microservices_dev/adservice:latest && docker push iaasadmin.in/microservices_dev/adservice:latest'
+            }
+        }
+        stage('Build cartservice docker image') {
+            steps {
+                sh 'cd src/cartservice/src && docker build -t cartservice:latest . && docker tag cartservice:latest iaasadmin.in/microservices_dev/cartservice:latest && docker push iaasadmin.in/microservices_dev/cartservice:latest'
+            }
+        }
+        stage('Build checkoutservice docker image') {
+            steps {
+                sh 'cd src/checkoutservice && docker build -t checkoutservice:latest . && docker tag checkoutservice:latest iaasadmin.in/microservices_dev/checkoutservice:latest' && docker push iaasadmin.in/microservices_dev/checkoutservice:latest
+            }
+        }
+
+        stage('Build emailservice docker image') {
+                steps {
+                    sh 'cd src/emailservice && docker build -t emailservice:latest . && docker tag emailservice:latest iaasadmin.in/microservices_dev/emailservice:latest && docker push iaasadmin.in/microservices_dev/emailservice:latest'
+                }
+            }
+        stage('Build currencyservice docker image') {
+                steps {
+                    sh 'cd src/currencyservice && docker build -t currencyservice:latest . && docker tag currencyservice:latest iaasadmin.in/microservices_dev/currencyservice:latest && docker push iaasadmin.in/microservices_dev/currencyservice:latest'
+                }
+            }
+        stage('Build frontend docker image') {
+                steps {
+                    sh 'cd src/frontend && docker build -t frontend:latest . && docker tag frontend:latest iaasadmin.in/microservices_dev/frontend:latest && docker push iaasadmin.in/microservices_dev/frontend:latest'
+                }
+            }
+        stage('Build loadgenerator docker image') {
+                steps {
+                    sh 'cd src/loadgenerator && docker build -t loadgenerator:latest . && docker tag loadgenerator:latest iaasadmin.in/microservices_dev/loadgenerator:latest && docker push iaasadmin.in/microservices_dev/loadgenerator:latest'
+                }
+            }
+        stage('Build paymentservice docker image') {
+                steps {
+                    sh 'cd src/paymentservice && docker build -t paymentservice:latest . && docker tag paymentservice:latest iaasadmin.in/microservices_dev/paymentservice:latest && docker push iaasadmin.in/microservices_dev/paymentservice:latest'
+                }
+            }
+        stage('Build productcatalogservice docker image') {
+                steps {
+                    sh 'cd src/productcatalogservice && docker build -t productcatalogservice:latest . && docker tag productcatalogservice:latest iaasadmin.in/microservices_dev/productcatalogservice:latest && docker push iaasadmin.in/microservices_dev/productcatalogservice:latest'
+                }
+            }
+        stage('Build recommendationservice docker image') {
+                steps {
+                    sh 'cd src/recommendationservice && docker build -t recommendationservice:latest . && docker tag recommendationservice:latest iaasadmin.in/microservices_dev/recommendationservice:latest && docker push iaasadmin.in/microservices_dev/recommendationservice:latest'
+                }
+            }
+        stage('Build shippingservice docker image') {
+                steps {
+                    sh 'cd src/shippingservice && docker build -t shippingservice:latest . && docker tag shippingservice:latest iaasadmin.in/microservices_dev/shippingservice:latest && docker push iaasadmin.in/microservices_dev/shippingservice:latest'
+                }
+            }
+        stage('Deploy to GKE') {
+            steps{
+                step([
+                $class: 'KubernetesEngineBuilder',
+                projectId: env.PROJECT_ID,
+                clusterName: env.CLUSTER_NAME,
+                location: env.LOCATION,
+                manifestPattern: 'manifest.yaml',
+                credentialsId: env.CREDENTIALS_ID,
+                verifyDeployments: true])
+            }
+        }
+        
     }
 }
