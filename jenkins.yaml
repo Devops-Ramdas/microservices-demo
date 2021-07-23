@@ -1,7 +1,6 @@
 pipeline {
     agent any
     
-    }
     stages {
         stage('Checkout code from GitHub Repo') {
               steps{
@@ -71,3 +70,4 @@ pipeline {
                 }
             }
     }
+}
