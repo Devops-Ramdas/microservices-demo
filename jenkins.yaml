@@ -31,8 +31,7 @@ pipeline {
         }
         stage('Build checkoutservice docker image') {
             steps {
-                sh 'cd src/checkoutservice && docker build -t checkoutservice:latest . && docker tag checkoutservice:latest iaasadmin.in/microservices_dev/checkoutservice:latest' && docker push iaasadmin.in/microservices_dev/checkoutservice:latest'
-            }
+                sh 'cd src/checkoutservice && docker build -t checkoutservice:latest . && docker tag checkoutservice:latest iaasadmin.in/microservices_dev/checkoutservice:latest' && docker push iaasadmin.in/microservices_dev/checkoutservice:latest' }
         }
 
         stage('Build emailservice docker image') {
